@@ -26,6 +26,21 @@ Recommended:
 * Any type of Addressable WS2812B LED array (Neopixel, LED strip, etc.)
 * [Adafruit Neopixel Arduino Library](https://github.com/adafruit/Adafruit_NeoPixel)
 
+## Software setup
+
+* Install Arduino IDE (Tested with Arduino up to 1.8.13 from arduino.cc)
+* Install TinyISP driver from https://learn.adafruit.com/usbtinyisp/download
+* Open Arduino IDE
+* Open File->Preferences
+* Add https://raw.githubusercontent.com/damellis/attiny/ide-1.6.x-boards-manager/package_damellis_attiny_index.json to "Additional Boards Manager URLs"
+* Run Tools->Board->Boards Manager
+* Install "attiny" board package
+* Select ATtiny25/45/85 at Tools->Board->ATtiny Microcontroller
+* Select ATtiny85 at Tools->Board->Processor
+* Select Internal 16 MHz at Tools->Clock
+* Select USBtinyISP at Tools->Programmer
+
+
 ### Flashing LitKit with USBTinyISP
 
 *COMING SOON*
@@ -54,6 +69,7 @@ Please feel free to issue a PR or edit code freely. Would love to have people co
 ## Authors
 
 * **Postman** - *Engineer at Gamebox Systems*
+* **Knk**
 
 ## License
 
