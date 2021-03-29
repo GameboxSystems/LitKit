@@ -31,9 +31,10 @@
  * @param r   - Red intensity 0-255
  * @param g   - Green intensity 0-255
  * @param b   - Blue intensity 0-255
+ * @param n   - LEDs in chain 0-255
  * @return none
  */
-void ws2812b_write(uint8_t pin, uint8_t r, uint8_t g, uint8_t b){
+void ws2812b_write(uint8_t pin, uint8_t r, uint8_t g, uint8_t b, uint8_t n){
 	uint8_t l, h;
 	uint16_t j;
 
@@ -45,18 +46,22 @@ void ws2812b_write(uint8_t pin, uint8_t r, uint8_t g, uint8_t b){
     // 0 /400\850 /6\14
     // 1 /800\450 /13\7
     // 62.5ns/cycle
-		"bst %[green],7\n"         	// Load T-bit from G[7]
+		"bst %[green],7\n"      // Load T-bit from G[7]
+		"mov r16, %[cnt]\n"     // Load Counter
+		"cli\n"					// Disable interrupts
 	"G7%=:\n"               	// Start of G[7]
 		"out %0, %[high]\n"  	// Drive pin high
 		"brtc G7_0%=\n"       	// Jump if T=0
-		"nop\n nop\n nop\n nop\n"	// Wait
-		"bst %[green],6\n"         	// Load T-bit from next bit
+		"nop\n nop\n nop\n" 	// Wait
+		"dec r16\n"  			// Decrement counter (1 cycle)
+		"bst %[green],6\n"      // Load T-bit from next bit
 		"out %0, %[low]\n"   	// Drive pin low
 		"rjmp G6%=\n"         	// Jump to next bit
 	"G7_0%=:\n"             	// T=0
 		"out %0, %[low]\n"   	// Drive pin low
-		"nop\n nop\n nop\n nop\n nop\n"	// Wait
-		"bst %[green],6\n"         	// Load T-bit from next bit
+		"nop\n nop\n nop\n nop\n"   // Wait
+		"dec r16\n"				// Decrement counter (1 cycle)
+		"bst %[green],6\n"      // Load T-bit from next bit
 
 	"G6%=:\n"               	// Start of bit
 		"out %0, %[high]\n"  	// Drive pin high
@@ -315,7 +320,7 @@ void ws2812b_write(uint8_t pin, uint8_t r, uint8_t g, uint8_t b){
 		"out %0, %[high]\n"  	// Drive pin high
 		"brtc B1_0%=\n"       	// Jump if T=0
 		"nop\n nop\n nop\n nop\n"	// Wait
-		"bst %[blue],0\n"         	// Load T-bit from next bit
+		"bst %[blue],0\n"		// Load T-bit from next bit
 		"out %0, %[low]\n"   	// Drive pin low
 		"rjmp B0%=\n"         	// Jump to next bit
 	"B1_0%=:\n"             	// T=0
@@ -326,18 +331,32 @@ void ws2812b_write(uint8_t pin, uint8_t r, uint8_t g, uint8_t b){
 	"B0%=:\n"               	// Start of bit
 		"out %0, %[high]\n"  	// Drive pin high
 		"brtc B0_0%=\n"       	// Jump if T=0
-		"nop\n nop\n nop\n nop\n"	// Wait
-		"nop\n"					// Wait
+	"B0_1%=:\n"					// T=1
+		"bst %[green],7\n"		// Load T-bit from G[7] (1 cycle)
+		"cpi r16,0\n"			// Last transfer ?
+		"brne NotLast1%=\n"		// Jump to start (1/2 cycle)
+		"nop\n"
+		"nop\n"
 		"out %0, %[low]\n"   	// Drive pin low
 		"rjmp END%=\n"         	// Jump to next bit
+	"NotLast1%=:\n"				// Not Last cycle
+		"nop\n"
+		"out %0, %[low]\n"		// Drive pin low
+		"rjmp G7%=\n"			// Jump to start
 	"B0_0%=:\n"             	// T=0
 		"out %0, %[low]\n"   	// Drive pin low
-		"nop\n nop\n nop\n nop\n nop\n"	// Wait
-		"nop\n"					// Wait
+		"bst %[green],7\n"		// Load T-bit from G[7] (1 cycle)
+		"cpi r16,0\n"			// Last transfer ?
+		"brne NotLast0%=\n"		// Jump to start (1/2 cycle)
+		"nop\n"
+		"rjmp END%=\n"          // Jump to end
+	"NotLast0%=:\n"				// Not Last cycle
+		"rjmp G7%=\n"			// Jump to start
     "END%=:\n"
+		"sei\n"					// Enable interrupt
     : // Output operators
-    : "I" (_SFR_IO_ADDR(PORTB)), [red]"r" (r), [green]"r" (g), [blue]"r" (b), [high]"r" (h), [low]"r" (l) // Input operators
-    : // Clobbed registers
+    : "I" (_SFR_IO_ADDR(PORTB)), [red]"r" (r), [green]"r" (g), [blue]"r" (b), [high]"r" (h), [low]"r" (l), [cnt]"r" (n) // Input operators
+    : "r16" // Clobbed registers
 	);
 	for(j=0;j<400;j++){
 		asm volatile("nop");

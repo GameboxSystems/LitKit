@@ -18,6 +18,8 @@
 ***************************************************************************H*/
 #include "LitKit.h"
 
+#define NUM_LEDS    4
+
 void setup() {
   // put your setup code here, to run once:
   // Configure PB4 as output
@@ -29,10 +31,10 @@ void loop() {
   uint8_t green = 0;
   uint8_t blue = 0;
   while(1){
-	ws2812b_write(PB4, red, green, blue);
-	red += 1;
-	green += 3;
-	blue += 5;
-	delay(50);
+  	ws2812b_write(PB4, red, green, blue, NUM_LEDS);
+  	red += 10;
+  	green += 30;
+  	blue += 50;
+  	delay(500);
   }
 }

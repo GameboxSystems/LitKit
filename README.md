@@ -40,6 +40,14 @@ Recommended:
 * Select Internal 16 MHz at Tools->Clock
 * Select USBtinyISP at Tools->Programmer
 
+## Examples
+
+### Run as multi file arduino sketch
+
+* Copy src/LitKit.c and src/LitKit.h to selected example folder
+* Rename LitKit.c to LitKit.ino
+* Open exampleX.ino in Arduino IDE
+
 
 ### Flashing LitKit with USBTinyISP
 
