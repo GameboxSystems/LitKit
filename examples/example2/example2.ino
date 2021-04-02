@@ -1,9 +1,9 @@
 /*H***************************************************************************
- * FILENAME :        example1.c
+ * FILENAME :        example2.c
  *
  * DESCRIPTION :
  *       Shows a simple usecase for LitKit library
- *       Simple control loop for 1 LED
+ *       Example of LEDs array function
  *
  * NOTES :
  *       Example for a LitKit board and Arduino IDE
@@ -14,8 +14,8 @@
  * CHANGES :
  *
  * VERSION DATE        WHO     DETAIL
- * 1.0     2021.03.26  OK      Initial relase
- * 1.1     2021.04.02  OK      Updated with new functions
+ * 1.0     2021.04.02  OK      Initial relase
+ *
 ***************************************************************************H*/
 #include "LitKit.h"
 
@@ -26,14 +26,13 @@ void setup() {
 }
 
 void loop() {
-  uint8_t red = 0;
-  uint8_t green = 0;
-  uint8_t blue = 0;
-  while(1){
-  	ws2812b_write(PB4, red, green, blue);
-  	red += 10;
-  	green += 30;
-  	blue += 50;
+  // Array for 17 LEDs (GRB format)
+  uint8_t grb[51] = {100,0,0, 
+     0,0,0, 20,20,20, 0,0,0, 0,50,50, 
+     0,0,0, 0,0,0, 0,0,0, 20,20,20,
+     20,20,20, 0,0,0, 0,0,0, 0,0,0, 
+     0,0,100, 0,0,0, 20,20,20, 0,0,0};
+
+  	ws2812b_stream(PB4, grb, 51);
   	delay(500);
-  }
 }

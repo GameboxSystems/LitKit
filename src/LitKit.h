@@ -24,6 +24,29 @@
 ***************************************************************************H*/
 #include "avr/io.h"
 
-void ws2812b_write(uint8_t pin, uint8_t r, uint8_t g, uint8_t b, uint8_t n);
+/**
+ * @author: Oleksandr Kiyenko
+ * @version: 1.0
+ * Write data to a single WS2812B 
+ * 
+ * @param pin - Pin number from PORTB 
+ * @param r   - Red intensity 0-255
+ * @param g   - Green intensity 0-255
+ * @param b   - Blue intensity 0-255
+ * @return none
+ */
+void ws2812b_write(uint8_t pin, uint8_t r, uint8_t g, uint8_t b);
+
+/**
+ * @author: Oleksandr Kiyenko
+ * @version: 1.0
+ * Write stream to a WS2812B 
+ * 
+ * @param pin - Pin number from PORTB 
+ * @param grb - Array of colors in GRB format
+ * @param b   - Bytes to send 0-255
+ * @return none
+ */
+void ws2812b_stream(uint8_t pin, uint8_t* grb, uint8_t n);
 
 #endif  // LITKIT_H_
