@@ -40,6 +40,8 @@ Recommended:
 * Select Internal 16 MHz at Tools->Clock
 * Select USBtinyISP at Tools->Programmer
 
+![ArduinoIDE](/images/ArduinoIDE.png)
+
 ## Examples
 
 ### Run as multi file arduino sketch
