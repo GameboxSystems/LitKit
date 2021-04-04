@@ -3,12 +3,15 @@
  *
  * DESCRIPTION :
  *       Shows a simple usecase for LitKit library
- *       Example of LEDs array function
+ *       Example of WS2812B LEDs array function
  *
  * NOTES :
  *       Example for a LitKit board and Arduino IDE
  *
  * @author: Oleksandr Kiyenko
+ * If you find this code useful you know what to do
+ * bc1q8pflngx8qhaxtjvyhevdft4r6jvztrcm70fxz9
+ *
  * @version: 1.0
  *
  * CHANGES :

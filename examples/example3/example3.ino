@@ -3,7 +3,7 @@
  *
  * DESCRIPTION :
  *       Shows a simple usecase for LitKit library
- *       Simple control loop for 1 WS2812B LED
+ *       Simple control loop for 1 SK6812 LED
  *
  * NOTES :
  *       Example for a LitKit board and Arduino IDE
@@ -17,8 +17,7 @@
  * CHANGES :
  *
  * VERSION DATE        WHO     DETAIL
- * 1.0     2021.03.26  OK      Initial relase
- * 1.1     2021.04.02  OK      Updated with new functions
+ * 1.0     2021.04.04  OK      Initial relase
 ***************************************************************************H*/
 #include "LitKit.h"
 
@@ -33,7 +32,7 @@ void loop() {
   uint8_t green = 0;
   uint8_t blue = 0;
   while(1){
-  	ws2812b_write(PB4, red, green, blue);
+  	sk6812_write(PB4, red, green, blue);
   	red += 10;
   	green += 30;
   	blue += 50;
