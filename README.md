@@ -44,6 +44,10 @@ Recommended:
 
 ## Examples
 
+* Example1 - Single WS2812B demo
+* Example2 - WS6812B array demo
+* Example3 - Single SK6812 demo
+
 ### Run as multi file arduino sketch
 
 * Copy src/LitKit.c and src/LitKit.h to selected example folder
