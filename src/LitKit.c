@@ -46,7 +46,7 @@ void ws2812b_write(uint8_t pin, uint8_t r, uint8_t g, uint8_t b){
 }
 
 /**
- * @author: Oleksandr Kiyenko
+ * @author: Oleksandr Kiyenko o.kiyenko@gmail.com
  * @version: 1.0
  * Write stream to a WS2812B 
  * 
@@ -214,7 +214,7 @@ void sk6812_write(uint8_t pin, uint8_t r, uint8_t g, uint8_t b){
 }
 
 /**
- * @author: Oleksandr Kiyenko
+ * @author: Oleksandr Kiyenko o.kiyenko@gmail.com
  * @version: 1.0
  * Write stream to a SK6812
  * 
